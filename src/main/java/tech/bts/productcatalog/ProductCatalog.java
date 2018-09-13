@@ -1,6 +1,6 @@
 package tech.bts.productcatalog;
 
-import java.io.FileNotFoundException;
+import com.google.gson.Gson;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -17,7 +17,20 @@ public class ProductCatalog {
         products.add(p2);
         products.add(p3);
 
+        writeJSON(products);
         writeCSV(products);
+
+    }
+
+    private static void writeJSON(List<Product> products) throws Exception {
+        // JSON - JavaScript Object Notation
+        Gson gson = new Gson();
+        String json = gson.toJson(products);
+
+        PrintWriter writer = new PrintWriter("products.json");
+
+        writer.println(json);
+        writer.close();
 
     }
 
