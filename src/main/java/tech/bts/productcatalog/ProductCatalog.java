@@ -1,5 +1,6 @@
 package tech.bts.productcatalog;
 
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -9,14 +10,18 @@ public class ProductCatalog {
 
         Product p1 = new Product("iPhone X", 1000, 50);
         Product p2 = new Product("MacBook Pro", 1500, 30);
+        Product p3 = new Product("Mouse", 20, 55);
 
         List<Product> products = new ArrayList<Product>();
-
         products.add(p1);
         products.add(p2);
+        products.add(p3);
 
-        System.out.println(p1);
+        writeCSV(products);
 
+    }
+
+    private static void writeCSV(List<Product> products) throws Exception {
         // CSV - Comma Separated Values
         PrintWriter writer = new PrintWriter("products.csv");
 
