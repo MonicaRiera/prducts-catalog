@@ -30,6 +30,7 @@ public class ProductCatalog {
 
             if (action.equals("exit")) {
                 writeJSON(products);
+                writeHTML(products);
                 break;
 
             } else if (action.equals("add")) {
@@ -41,6 +42,8 @@ public class ProductCatalog {
                 for (Product p : products) {
                     System.out.println(p);
                     }
+            } else if (action.equals("html")) {
+                writeHTML(products);
             }
         }
     }
@@ -98,5 +101,19 @@ public class ProductCatalog {
         Product p = new Product(name, price, stock);
 
         return p;
+    }
+
+    private static void writeHTML(List<Product> products) throws Exception{
+        PrintWriter writer = new PrintWriter("products.html");
+        writer.println("<h1>Products</h1>");
+        writer.println("<h3>Available products</h3>");
+        writer.println("<ul>");
+
+        for (Product product : products) {
+            writer.println("<li>" + product + "</li>");
+        }
+        writer.println("</ul>");
+        writer.close();
+
     }
 }
