@@ -33,14 +33,17 @@ public class ProductCatalog {
 
     public static void main(String[] args) throws Exception {
 
+
+        List<Product> products = readJSON();
+
         while (true) {
 
             System.out.println("Welcome! What do you want to do? ");
             Scanner input = new Scanner(System.in);
             String action = input.nextLine();
-            List<Product> products = new ArrayList<Product>();
 
             if (action.equals("exit")) {
+                writeJSON(products);
                 break;
             }
 
@@ -58,39 +61,25 @@ public class ProductCatalog {
                 products.add(p);
                 System.out.println("Added: " + p);
 
-                writeJSON(p);
+                writeJSON(products);
             }
 
             if (action.equals("list")) {
-
+                readJSON();
                 for (Product p : products) {
                     System.out.println(p);
-                }
-
-                //readJSON();
+                    }
             }
 
 
         }
 
-        /*Product p1 = new Product("iPhone X", 1000, 50);
-        Product p2 = new Product("MacBook Pro", 1500, 30);
-        Product p3 = new Product("Mouse", 20, 55);
-
-        List<Product> products = new ArrayList<Product>();
-        products.add(p1);
-        products.add(p2);
-        products.add(p3);
-
-        writeJSON(products);
-        writeCSV(products);*/
-
     }
 
-    private static void writeJSON(Product p) throws Exception {
+    private static void writeJSON(List<Product> products) throws Exception {
         // JSON - JavaScript Object Notation
         Gson gson = new Gson();
-        String json = gson.toJson(p); // serializing (object to String)
+        String json = gson.toJson(products); // serializing (object to String)
 
         PrintWriter writer = new PrintWriter("products.json");
 
@@ -99,7 +88,7 @@ public class ProductCatalog {
 
     }
 
-    private static void readJSON() throws Exception {
+    private static List<Product> readJSON() throws Exception {
         Gson gson = new Gson();
 
         BufferedReader reader = new BufferedReader( new FileReader("products.json"));
@@ -109,9 +98,7 @@ public class ProductCatalog {
         Type type = new TypeToken<List<Product>>(){}.getType();
         List<Product> products = gson.fromJson(json, type);
 
-        for (Product p : products) {
-            System.out.println(p);
-        }
+        return products;
     }
 
     private static void writeCSV(List<Product> products) throws Exception {
