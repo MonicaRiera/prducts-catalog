@@ -7,73 +7,42 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class ProductCatalog {
 
     /**
      * This program can read products from keyboard and store them in a file (products.json).
-     *
      * When the program starts it will ask "What do you want to do?".
      * You can say "add" (add product) or "list" (display products).
-     *
      * If you say "add" the program will ask for the product data (name, price, units).
-     *
-     * > What do you want to do? add
-     * > Tell me the product name: iPhone
-     * > Price: 1000
-     * > Units: 5
-     * > Product added
-     * > What do you want to do? list
-     * iPhone - 1000€ - 5 units
-     * ....
-     * > What do you want to do?
      */
 
     public static void main(String[] args) throws Exception {
-
 
         List<Product> products = readJSON();
 
         while (true) {
 
-            System.out.println("Welcome! What do you want to do? ");
+            System.out.print("Welcome! What do you want to do? (add/list/exit) ");
             Scanner input = new Scanner(System.in);
             String action = input.nextLine();
 
             if (action.equals("exit")) {
                 writeJSON(products);
                 break;
-            }
 
-            if (action.equals("add")) {
-                System.out.print("What product? ");
-                String name = input.nextLine();
-
-                System.out.print("At what price? ");
-                double price = Double.parseDouble(input.nextLine());
-
-                System.out.print("Any stock? ");
-                int stock = Integer.parseInt(input.nextLine());
-
-                Product p = new Product(name, price, stock);
+            } else if (action.equals("add")) {
+                Product p = createProduct(input);
                 products.add(p);
                 System.out.println("Added: " + p);
 
-                writeJSON(products);
-            }
-
-            if (action.equals("list")) {
-                readJSON();
+            } else if (action.equals("list")) {
                 for (Product p : products) {
                     System.out.println(p);
                     }
             }
-
-
         }
-
     }
 
     private static void writeJSON(List<Product> products) throws Exception {
@@ -113,5 +82,21 @@ public class ProductCatalog {
         }
 
         writer.close();
+    }
+
+    private static Product createProduct(Scanner input){
+
+        System.out.print("What product? ");
+        String name = input.nextLine();
+
+        System.out.print("At what price? ");
+        double price = Double.parseDouble(input.nextLine());
+
+        System.out.print("Any stock? ");
+        int stock = Integer.parseInt(input.nextLine());
+
+        Product p = new Product(name, price, stock);
+
+        return p;
     }
 }
