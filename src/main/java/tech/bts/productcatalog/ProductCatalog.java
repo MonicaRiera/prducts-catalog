@@ -21,6 +21,7 @@ public class ProductCatalog {
     public static void main(String[] args) throws Exception {
 
         List<Product> products = readJSON();
+        List<String> htmlExtraLines = new ArrayList<String>();
 
         while (true) {
 
@@ -30,7 +31,7 @@ public class ProductCatalog {
 
             if (action.equals("exit")) {
                 writeJSON(products);
-                writeHTML(products);
+                writeHTML(products, htmlExtraLines);
                 break;
 
             } else if (action.equals("add")) {
@@ -42,8 +43,12 @@ public class ProductCatalog {
                 for (Product p : products) {
                     System.out.println(p);
                     }
-            } else if (action.equals("html")) {
-                writeHTML(products);
+
+            } else if (action.equals("write html line")) {
+                System.out.println("Please, enter type of line and text");
+                String htmlLine = htmlLine(input.nextLine(), input.nextLine());
+                htmlExtraLines.add(htmlLine);
+                System.out.println("Added: " + htmlLine);
             }
         }
     }
@@ -103,7 +108,7 @@ public class ProductCatalog {
         return p;
     }
 
-    private static void writeHTML(List<Product> products) throws Exception{
+    private static void writeHTML(List<Product> products, List<String> extraLines) throws Exception{
         PrintWriter writer = new PrintWriter("products.html");
         writer.println("<h1>Products</h1>");
         writer.println("<h3>Available products</h3>");
@@ -113,7 +118,18 @@ public class ProductCatalog {
             writer.println("<li>" + product + "</li>");
         }
         writer.println("</ul>");
+
+        for (String extraLine : extraLines) {
+            writer.println(extraLine);
+        }
         writer.close();
+
+    }
+
+    private static String htmlLine (String type, String text) {
+
+        String result = "<" + type + ">" + text + "</" + type + ">";
+        return result;
 
     }
 }
